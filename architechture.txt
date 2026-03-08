@@ -1,0 +1,17 @@
+Rough work/drafts/workflow
+
+Student scans ID
+        ↓
+Scanner software writes NetID to Excel
+        ↓
+Python watcher detects new row in Excel
+        ↓
+Extract NetID + timestamp
+        ↓
+Store in database
+        ↓
+Run analytics / logging
+        ↓
+Display on analytics / logs on webapp dashboard
+        ↓
+Optional: export to Nexus
