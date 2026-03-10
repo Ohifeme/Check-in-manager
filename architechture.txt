@@ -15,3 +15,5 @@ Run analytics / logging
 Display on analytics / logs on webapp dashboard
         ↓
 Optional: export to Nexus
+
+Also need to create workflow/architecture for individual files and files ot be made
