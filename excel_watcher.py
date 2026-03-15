@@ -13,9 +13,10 @@ class ExcelHandler(FileSystemEventHandler):
         valid_no=0
         for _, row in df.iterrows():
             netid = row.iloc[3] 
+            year=row.iloc[9]
             if type(netid)is str:
                 valid_no+=1
-                process_netid(netid,valid_no)
+                process_netid(netid,valid_no, year)
 
     def on_modified(self, event):
         """Handle file modifications - process only the new row"""
@@ -28,8 +29,8 @@ class ExcelHandler(FileSystemEventHandler):
 
             process_netid(netid)
 
-def process_netid(netid,index=None):
-    print(index," New scan:", netid)
+def process_netid(netid,index=None,grade=None):
+    print(index," New scan:", netid, " ", grade)
 
 handler = ExcelHandler()
 handler.process_existing_rows()
