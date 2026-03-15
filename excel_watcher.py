@@ -7,6 +7,7 @@ FILE = "Cookout_F25.xlsx"
 class ExcelHandler(FileSystemEventHandler):
 
     def process_existing_rows(self):
+        """Process all existing NetIDs in the Excel file"""
         print(f"Printing pre exisitng data from {FILE}...\n")
         df = pd.read_excel(FILE)
         valid_no=0
@@ -17,7 +18,7 @@ class ExcelHandler(FileSystemEventHandler):
                 process_netid(netid,valid_no)
 
     def on_modified(self, event):
-
+        """Handle file modifications - process only the new row"""
         if event.src_path.endswith("Cookout_F25.xlsx"):
 
             df = pd.read_excel(FILE)
