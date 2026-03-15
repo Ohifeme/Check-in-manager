@@ -17,3 +17,10 @@ Display on analytics / logs on webapp dashboard
 Optional: export to Nexus
 
 Also need to create workflow/architecture for individual files and files ot be made
+
+Notes:
+1. We access columns with 0-based indexing
+2. Need to add netid verification
+
+Bragging points:
+1. NETID validation
