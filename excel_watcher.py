@@ -1,8 +1,12 @@
 import pandas as pd
+import sqlite3
+from datetime import datetime
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
 
+
 FILE = "Cookout_F25.xlsx"
+DB_FILE = "database/database.db"
 
 class ExcelHandler(FileSystemEventHandler):
 
@@ -14,9 +18,11 @@ class ExcelHandler(FileSystemEventHandler):
         for _, row in df.iterrows():
             netid = row.iloc[3] 
             year=row.iloc[9]
+            major=row.iloc[8]
+            scan_time=row.iloc[0]
             if type(netid)is str:
                 valid_no+=1
-                process_netid(netid,valid_no, year)
+                process_netid(netid, scan_time, year, major)
 
     def on_modified(self, event):
         """Handle file modifications - process only the new row"""
@@ -29,8 +35,25 @@ class ExcelHandler(FileSystemEventHandler):
 
             process_netid(netid)
 
-def process_netid(netid,index=None,grade=None):
-    print(index," New scan:", netid, " ", grade)
+def process_netid(netid,scantime=None, year=None, major=None):
+    # print(index," New scan:", netid, " ", year, " ", major)
+    try:
+        conn = sqlite3.connect(DB_FILE)
+        cursor = conn.cursor()
+        
+        # Insert the NetID
+        cursor.execute('''
+            INSERT INTO scans (netid, year, major, scan_time, processed)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (netid, year, major, scantime, 1))
+        
+        conn.commit()
+        conn.close()
+        print(f"Saved {netid} to database")
+        
+    except Exception as e:
+        print(f" Error saving to database: {e}")
+
 
 handler = ExcelHandler()
 handler.process_existing_rows()
